@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.yyr.board.dto.HelloDto;
 
 // Response로 HTML을 반환하는 Controller가 아니고
 // Response Body에 직접데이터를 담아서 응답하는 Controller
@@ -54,8 +57,9 @@ public class MainController {
 	
 	// @PostMapping(end-point) : 해당 end-point로 Post 방식의 Request가 왔을 때 동작
 	@PostMapping(HELLO)
-	public String postHello() {
-		return "This is post method, end-point '/hello'";
+	// @RequestBody : 해당 Request의 Body에서 JSON을 인식해 인스턴스로 변경 
+	public HelloDto postHello(@RequestBody HelloDto requestBody) {
+		return requestBody;
 	}
 	
 	// @PutMapping(end-point) : 해당 end-point로 Put 방식의 Request가 왔을 때 동작
