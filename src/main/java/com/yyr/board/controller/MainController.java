@@ -1,5 +1,15 @@
 package com.yyr.board.controller;
-
+/* 순서
+ * 
+ * @RestController : 리턴값이 http형식(헤더, 바디)
+ * @RequestMapping : end-point를 지정해줌
+ * http방식~ : 코드 확인하는 방법
+ * @GetMapping, @PostMapping, @PutMapping, @PatchMapping, @DeleteMapping
+ * 		: 라우팅 방식
+ * @RequestParam : URL?query로 정보 받을 때
+ * @PathVariable : URL/value로 정보 받을 때
+ * @RequestBody : Body로 정보 받을 때
+ * */
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yyr.board.dto.HelloDto;
+import com.yyr.board.dto.response.ResponseDto;
 
 // Response로 HTML을 반환하는 Controller가 아니고
 // Response Body에 직접데이터를 담아서 응답하는 Controller
@@ -25,6 +36,8 @@ public class MainController {
 	// http://localhost:4040/
 	// 현재 http://IPv4주소:4040/apis/hello 방식으로 작동
 	// IPv4는 cmd에서 ipconfig로 확인 가능
+	// 서버(BoardApplication.java) 실행 후 주소에서 확인, 다시 확인할때는 끄고 재동작
+	// (안끈상태로 키면 이클립스 다시 켜야됨)
 	// @GetMapping("end-point") : 해당 end-point로 Get 방식의 Request가 왔을 때 동작
 	
 	static final String HELLO = "hello";
@@ -58,8 +71,8 @@ public class MainController {
 	// @PostMapping(end-point) : 해당 end-point로 Post 방식의 Request가 왔을 때 동작
 	@PostMapping(HELLO)
 	// @RequestBody : 해당 Request의 Body에서 JSON을 인식해 인스턴스로 변경 
-	public HelloDto postHello(@RequestBody HelloDto requestBody) {
-		return requestBody;
+	public ResponseDto<HelloDto> postHello(@RequestBody HelloDto requestBody) {
+		return ResponseDto.setSuccess("hello", requestBody);
 	}
 	
 	// @PutMapping(end-point) : 해당 end-point로 Put 방식의 Request가 왔을 때 동작
