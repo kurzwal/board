@@ -13,7 +13,7 @@ public class ResponseDto<D> {
 	private String message;
 	private D data;
 	
-	// 앞의 <D>는 리턴값에 D를 쓰겠다는 의미(위의 D와는 다른애임)
+	// 앞의 <D>는 이 함수에서 D를 쓰겠다는 의미(위의 D와는 다른애임)
 	public static <D> ResponseDto<D> setSuccess(String message, D data) {
 		// new로 생성자 써도 되는데 spring 스럽지 못함
 		return ResponseDto.set(true, message, data);
