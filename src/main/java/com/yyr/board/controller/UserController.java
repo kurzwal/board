@@ -1,14 +1,15 @@
 package com.yyr.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yyr.board.dto.response.ResponseDto;
-import com.yyr.board.dto.user.DeleteUserDto;
+import com.yyr.board.dto.user.GetUserResponseDto;
 import com.yyr.board.dto.user.PostUserDto;
 import com.yyr.board.dto.user.PostUserResponseDto;
 import com.yyr.board.service.UserService;
@@ -19,13 +20,16 @@ public class UserController {
 	
 	@Autowired UserService userService;
 	
+	@GetMapping("{email}")
+	public ResponseDto<GetUserResponseDto> getUser(@PathVariable("email") String email){
+		return userService.getUser(email);
+	}
+	
+	
 	@PostMapping("")
 	public ResponseDto<PostUserResponseDto> postUser(@RequestBody PostUserDto requestBody) {
 		return userService.postUser(requestBody);
 	}
 	
-//	@DeleteMapping("")
-//	public ResponseDto<PostUserResponseDto> deleteUser(@RequestBody DeleteUserDto requestBody) {
-//		return userService.deleteUser(requestBody);
-//	}
+	
 }

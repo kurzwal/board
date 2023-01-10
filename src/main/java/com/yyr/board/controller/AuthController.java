@@ -32,6 +32,12 @@ public class AuthController {
 		return authService.hello();
 	}
 	
+	
+	
+	
+	
+	
+	
 	@PostMapping("regist")
 	public String register(@RequestBody MemberEntity requestBody) {
 		return authService.register(requestBody);

@@ -18,25 +18,28 @@ public class AuthService {
 	@Autowired MemberRepository memberRepository;
 	
 	public ResponseDto<LoginDto> login(AuthPostDto dto) {
+		// 입력받은 email 으로 데이터베이스에서 검색
+		// 존재하지 않는다면 없는 아이디이므로 "로그인 실패" 반환
+		String email = dto.getEmail();
+		MemberEntity member;
+		try {
+			member = memberRepository.findById(email).get();
+		} catch (Exception e) {
+			return ResponseDto.setFailed("Login Failed");
+		}
+		
+		// 존재한다면 입력받은 패스워드와 데이터베이스의 패스워드와 동일한지 검사
+		// 동일하지 않다면 "로그인 실패" 반환
+		String password = dto.getPassword();
+		String savedPassword = member.getPassword();
+		if (!password.equals(savedPassword))
+			return ResponseDto.setFailed("Login Failed");
+		
+		// 토큰 생성 후 토큰 및 만료시간 반환
 		LoginDto result = new LoginDto("TOKEN", 3600000);
-		return ResponseDto.setSuccess("", result);
+		return ResponseDto.setSuccess("로그인 성공", result);
 	}
-	
-	public String register(MemberEntity memberEntity) {
-		memberRepository.save(memberEntity);
-		return "Regist complete!";
-	}
-	
-	public String getNicknameByEmail(String email) {
-		MemberEntity savedMemberEntity = memberRepository.findById(email).get();
-		return savedMemberEntity.getNickname();
-	}
-	
-	public String deleteByEmail(String email) {
-		memberRepository.deleteById(email);
-		return "Delete complete!";
-	}
-	
+
 	
 	
 	public String hello() {
@@ -60,6 +63,32 @@ public class AuthService {
 //		System.out.println(list.toString());
 		
 		return savedMemberEntity.getNickname();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public String register(MemberEntity memberEntity) {
+		memberRepository.save(memberEntity);
+		return "Regist complete!";
+	}
+	
+	public String getNicknameByEmail(String email) {
+		MemberEntity savedMemberEntity = memberRepository.findById(email).get();
+		return savedMemberEntity.getNickname();
+	}
+	
+	public String deleteByEmail(String email) {
+		memberRepository.deleteById(email);
+		return "Delete complete!";
 	}
 	
 }
