@@ -1,7 +1,9 @@
 package com.yyr.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yyr.board.dto.response.ResponseDto;
 import com.yyr.board.dto.user.GetUserResponseDto;
+import com.yyr.board.dto.user.PatchUserDto;
 import com.yyr.board.dto.user.PostUserDto;
 import com.yyr.board.dto.user.PostUserResponseDto;
+import com.yyr.board.dto.user.ResultResponseDto;
 import com.yyr.board.service.UserService;
 
 @RestController
@@ -31,5 +35,14 @@ public class UserController {
 		return userService.postUser(requestBody);
 	}
 	
+	@PatchMapping("")
+	public ResponseDto<GetUserResponseDto> patchUser(@RequestBody PatchUserDto requestBody) {
+		return userService.patchUser(requestBody);
+	}
+	
+	@DeleteMapping("{email}")
+	public ResponseDto<ResultResponseDto> deleteUser(@PathVariable("email") String email) {
+		return userService.deleteUser(email);
+	}
 	
 }

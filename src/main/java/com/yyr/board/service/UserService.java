@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yyr.board.dto.response.ResponseDto;
+import com.yyr.board.dto.user.ResultResponseDto;
 import com.yyr.board.dto.user.GetUserResponseDto;
+import com.yyr.board.dto.user.PatchUserDto;
 import com.yyr.board.dto.user.PostUserDto;
 import com.yyr.board.dto.user.PostUserResponseDto;
 import com.yyr.board.entity.MemberEntity;
@@ -54,6 +56,27 @@ public class UserService {
 		return ResponseDto.setSuccess("Get User Success", new GetUserResponseDto(member));
 	}
 	
+	public ResponseDto<GetUserResponseDto> patchUser(PatchUserDto dto) {
+		MemberEntity member = findById(dto.getEmail());
+		if (member == null)
+			return ResponseDto.setFailed("Not Exist User.");
+		
+		member = dto.patchUser(member);
+		memberRepository.save(member);
+		return ResponseDto.setSuccess("User Patch Success", new GetUserResponseDto(member));
+	}
+	
+	public ResponseDto<ResultResponseDto> deleteUser(String email) {
+		// 존재하는지 확인
+//		if (!memberRepository.existsById(email)) 
+//			{return ResponseDto.setFailed("Not Exist User");}
+		memberRepository.deleteById(email);
+		return ResponseDto.setSuccess("User Delete Success", new ResultResponseDto(true));
+	}
+	
+	
+	
+	
 	private MemberEntity findById(String email) {
 		try {
 			MemberEntity member = memberRepository.findById(email).get();
@@ -62,5 +85,6 @@ public class UserService {
 			return null;
 		}
 	}
+	
 	
 }

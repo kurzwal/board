@@ -27,4 +27,5 @@ public class GetUserResponseDto {
 		this.address = member.getAddress().split(" ")[0];
 		this.addressDetail = member.getAddress().split(" ")[1];
 	}
+	
 }
